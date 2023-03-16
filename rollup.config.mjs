@@ -6,6 +6,6 @@ export default {
     format: "iife"
     //format: 'es'
   },
-  plugins: [nodeResolve()]
+  plugins: [nodeResolve( { dedupe: ["@codemirror/state"] } )]
 }
 

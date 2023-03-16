@@ -23,14 +23,18 @@ import { autocompletion, closeBrackets } from "@codemirror/autocomplete"
 import { CursorWidget, addCursor, removeCursor, cursorExt } from "./cursor"
 import { addAuthor, removeAuthor, authorExt } from "./author"
 
+import ixora from '@retronav/ixora';
 
+import {openSearchPanel, searchKeymap, highlightSelectionMatches} from "@codemirror/search"
 /*
 import {defaultKeymap, history, historyKeymap} from "@codemirror/commands"
-import {searchKeymap, highlightSelectionMatches} from "@codemirror/search"
 import {lintKeymap} from "@codemirror/lint"
 
 
 */
+
+import { cryptpadDark } from './themes/cryptpad-dark';
+import { cryptpadLight } from './themes/cryptpad-light';
 
 
 let language = new Compartment;
@@ -39,6 +43,8 @@ let theme = new Compartment;
 let brackets = new Compartment;
 let indents = new Compartment;
 let readOnly = new Compartment;
+let sv = new Compartment;
+
 
 let evTypes = {
     change: [],
@@ -78,18 +84,24 @@ let md = languages.find((el) => {
     return el.id === 'gfm';
 }) || languages[2];
 
+
+
 window.CP_getLanguages = () => languages.slice();
 window.CP_createEditor = (cfg) => {
     cfg = cfg || {};
+    let classic = cfg.noNumber ? [[]] : [lineNumbers(), foldGutter()];
+    let lastTheme = themes[2];
     let editor = new EditorView({
         state: EditorState.create({
             extensions: [
+                sv.of(classic),
+
                 cursorExt,
                 authorExt,
 
                 EditorView.lineWrapping,
                 updateListenerExtension,
-                //domEventExtension,
+
                 highlightActiveLineGutter(),
                 highlightSpecialChars(),
                 drawSelection(),
@@ -98,10 +110,11 @@ window.CP_createEditor = (cfg) => {
                 indentOnInput(),
                 syntaxHighlighting(defaultHighlightStyle, {fallback: true}),
 
-                cfg.noNumber ? [] : lineNumbers(),
-                cfg.noNumber ? [] : foldGutter(),
 
-                keymap.of([indentWithTab]),
+                highlightSelectionMatches(),
+
+
+                keymap.of([indentWithTab].concat(searchKeymap)),
                 indents.of(indentUnit.of('\t')),
                 tabSize.of(EditorState.tabSize.of(8)),
 
@@ -115,20 +128,30 @@ window.CP_createEditor = (cfg) => {
                 rectangularSelection(),
                 crosshairCursor(),
                 highlightActiveLine(),
-                //highlightSelectionMatches(),
-                //defaultHighlightStyle
+
                 language.of([md.extension]),
-                theme.of([themes[2]])
+                theme.of([lastTheme])
             ],
             doc: ''
         }),
     });
+
+    editor.CP_setInline = (state, dark) => {
+        editor.dispatch({ effects: sv.reconfigure([state ? [ixora] : classic]) });
+        if (state) {
+            editor.dispatch({ effects: theme.reconfigure([dark ? cryptpadDark : cryptpadLight]) });
+        } else {
+            editor.dispatch({ effects: theme.reconfigure([lastTheme]) });
+        }
+    };
+
 
     editor.CP_listThemes = () => themes.slice();
     editor.CP_setTheme = (id) => {
         let t = themes.find((el) => {
             return el.id === id;
         }) || themes[1];
+        lastTheme = t;
         editor.dispatch({
             effects: theme.reconfigure([t])
         });
