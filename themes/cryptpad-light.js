@@ -74,6 +74,17 @@ const cpLightTheme = /*@__PURE__*/EditorView.theme({
             color: ivory
         }
     }
+    // IXORA
+    ".cm-blockquote": {
+        //color: quoteText
+    },
+    "media-container > media-tag, media-container > pre": {
+        //backgroundColor: ixoraCodeBg,
+        borderRadius: "0 5px 5px 5px"
+    },
+    ".cm-codeblock": {
+        //backgroundColor: ixoraCodeBg
+    },
 }, { dark: false });
 
 // Polar Night

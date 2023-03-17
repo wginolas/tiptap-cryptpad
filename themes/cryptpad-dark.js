@@ -6,36 +6,19 @@ const chalky = "#e5c07b", coral = "#e06c75", cyan = "#56b6c2", invalid = "#fffff
 malibu = "#61afef", sage = "#98c379", whiskey = "#d19a66", violet = "#c678dd", darkBackground = "#21252b", highlightBackground = "#2c313a", tooltipBackground = "#353a42";
 
 const text = '#f8f8f2';
-const background = '#323232';
+const background = '#323232'; // 850, was 212121 in mockups but already used for CP background
 const cursor = '#f8f8f0';
 const gutters = '#6D8A88'; //'#282a36';
 const selection = 'rgba(255, 255, 255, 0.20)';
 const activeLine = 'rgba(255, 255, 255, 0.10)';
 
-const panelsBg = darkBackground; // XXX not used in CM6 yet?
+const panelsBg = darkBackground;
 const panelsFg = ivory;
 
-/**
-The colors used in the theme, as CSS color strings.
-*/
-const color = {
-    chalky,
-    coral,
-    cyan,
-    invalid,
-    ivory,
-    stone,
-    malibu,
-    sage,
-    whiskey,
-    violet,
-    darkBackground,
-    highlightBackground,
-    background,
-    tooltipBackground,
-    selection,
-    cursor
-};
+
+const ixoraCodeBg = "#424242"; // 800, was 323232 in mockups
+const quoteText = '#9E9E9E'; // 500
+
 /**
 The editor theme styles for One Dark.
 */
@@ -96,8 +79,22 @@ const cpDarkTheme = /*@__PURE__*/EditorView.theme({
             backgroundColor: highlightBackground,
             color: ivory
         }
-    }
+    },
+    // IXORA
+    ".cm-blockquote": {
+        color: quoteText
+    },
+    "media-container > media-tag, media-container > pre": {
+        backgroundColor: ixoraCodeBg,
+        borderRadius: "0 5px 5px 5px"
+    },
+    ".cm-codeblock": {
+        backgroundColor: ixoraCodeBg
+    },
+
 }, { dark: true });
+
+const linkColor = '#99cfff';
 
 const cpDarkHighlightStyle = /*@__PURE__*/HighlightStyle.define([
     { tag: tags.keyword,
@@ -123,7 +120,7 @@ const cpDarkHighlightStyle = /*@__PURE__*/HighlightStyle.define([
     { tag: tags.strikethrough,
         textDecoration: "line-through" },
     { tag: tags.link,
-        color: stone,
+        color: linkColor,
         textDecoration: "underline" },
     { tag: tags.heading,
         fontWeight: "bold",
