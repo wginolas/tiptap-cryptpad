@@ -136,8 +136,9 @@ window.CP_createEditor = (cfg) => {
         }),
     });
 
+    const ixoraCp = ixora(editor);
     editor.CP_setInline = (state, dark) => {
-        editor.dispatch({ effects: sv.reconfigure([state ? [ixora] : classic]) });
+        editor.dispatch({ effects: sv.reconfigure([state ? [ixoraCp] : classic]) });
         if (state) {
             editor.dispatch({ effects: theme.reconfigure([dark ? cryptpadDark : cryptpadLight]) });
         } else {
