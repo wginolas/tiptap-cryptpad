@@ -73,7 +73,7 @@ const cpLightTheme = /*@__PURE__*/EditorView.theme({
             backgroundColor: highlightBackground,
             color: ivory
         }
-    }
+    },
     // IXORA
     ".cm-blockquote": {
         //color: quoteText
