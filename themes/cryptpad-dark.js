@@ -18,6 +18,7 @@ const panelsFg = ivory;
 
 const ixoraCodeBg = "#424242"; // 800, was 323232 in mockups
 const quoteText = '#9E9E9E'; // 500
+const hrColor = '#9E9E9E';
 
 /**
 The editor theme styles for One Dark.
@@ -81,6 +82,10 @@ const cpDarkTheme = /*@__PURE__*/EditorView.theme({
         }
     },
     // IXORA
+    "hr": {
+        margin: 0,
+        backgroundColor: hrColor
+    },
     ".cm-blockquote": {
         color: quoteText
     },
