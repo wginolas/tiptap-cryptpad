@@ -7,9 +7,8 @@
 npm install
 
 # Build the editor
-node_modules/.bin/rollup -c
+npm run build
 
 # Move the result to CryptPad
 cp -f editor.bundle.js ../path/to/cryptpad/www/lib/cm6.js
 ```
-
